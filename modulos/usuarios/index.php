@@ -1,3 +1,9 @@
+<!-- Si la sesion existe, mostrar la página
+     Si la sesion no existe, redireccionar a login
+ -->
+<?php 
+include_once '../../includes/_db.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,13 +14,13 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
     <title>Sistema de Apartado Cañones</title>
-    <link rel="stylesheet" href="css/estilo.css">
+    <link rel="stylesheet" href="../../css/estilo.css">
 </head>
 
 <body>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
             <a class="navbar-brand" href="#">
-                <img src="img/logo.svg" width="30" height="30" alt="">
+                <img src="../img/logo.svg" width="30" height="30" alt="">
             </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -46,11 +52,11 @@
         <div class="sidebar" id="sidebar">
             <nav>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item list-group-item-action active">
-                        <i class="fas fa-list-ul"></i><a class="nav-link active" href="#">Apartados</a>
-                    </li>
                     <li class="list-group-item list-group-item-action">
-                        <i class="fas fa-user-friends"></i><a class="nav-link" href="#">Usuarios</a>
+                        <i class="fas fa-list-ul"></i><a class="nav-link" href="#">Apartados</a>
+                    </li>
+                    <li class="list-group-item list-group-item-action active">
+                        <i class="fas fa-user-friends"></i><a class="nav-link active" href="#">Usuarios</a>
                     </li>
                     <li class="list-group-item list-group-item-action">
                         <i class="fas fa-sliders-h"></i><a class="nav-link" href="#">Configuración</a>
@@ -60,55 +66,43 @@
         </div>
         <div class="container" id="contenedor-principal">
         	<section>
+            <?php $users = $db->select("usuarios", "*") ?>
 		<table class="table">
 		  <thead class="thead-dark">
 		    <tr>
-		      <th scope="col">#</th>
 		      <th scope="col">Nombre</th>
-		      <th scope="col">Fecha</th>
-		      <th scope="col">Hora de Inicio</th>
-		      <th scope="col">Hora de Finalización</th>
-		      <th scope="col">Salón</th>
-		      <th scope="col">Materia</th>
+		      <th scope="col">Matricula</th>
+		      <th scope="col">Telefono</th>
+		      <th scope="col">Correo</th>
+		      <th scope="col">Nivel</th>
+              <th scope="col">Status</th>
 		    </tr>
 		  </thead>
 		  <tbody>
+          <?php
+            //Cuando se consultan varios registros se utiliza select
+            //$usuarios = $db->select("usuarios", "*", [
+            //    "AND" => [
+            //        "usr_estatus" => 1,
+            //        "usr_nivel" => 2
+            //        ]
+            //    ]);
+            // Se utiliza get cuando solo es un registro exclusivo
+            //$row = $db->get("usuarios", "*", ["usr_id" => 6] );
+            foreach($users as $user)
+                { 
+                    ?>
 		    <tr>
-		      <th scope="row">1</th>
-		      <td>Daniel</td>
-		      <td>16/09/2019</td>
-		      <td>02:00 pm</td>
-		      <td>04:30 pm</td>
-		      <td>302</td>
-		      <td>Programación Orientada a Objetos</td>
+		      <th scope="col"><?php echo $user['nombre'] ?></th>
+		      <th scope="col"><?php echo $user['matricula'] ?></th>
+		      <th scope="col"><?php echo $user['telefono'] ?></th>
+		      <th scope="col"><?php echo $user['correo'] ?></th>
+		      <th scope="col"><?php echo $user['nivel'] ?></th>
+              <th scope="col"><?php echo $user['status'] ?></th>
 		    </tr>
-		    <tr>
-		      <th scope="row">2</th>
-		      <td>Mario</td>
-		      <td>18/09/2019</td>
-		      <td>03:10 pm</td>
-		      <td>06:45 pm</td>
-		      <td>102</td>
-		      <td>Sistemas ERP</td>
-		    </tr>
-		    <tr>
-		      <th scope="row">3</th>
-		      <td>Karen</td>
-		      <td>15/09/2019</td>
-		      <td>10:20 am</td>
-		      <td>01:40 pm</td>
-		      <td>201</td>
-		      <td>Redes</td>
-		    </tr>
-		    <tr>
-		        <th scope="row">4</th>
-		        <td>Diana</td>
-		      <td>10/09/2019</td>
-		      <td>09:10 am</td>
-		      <td>11:22 am</td>
-		      <td>101</td>
-		      <td>Desarrollo Orientado a Objetos</td>
-		    </tr>
+            <?php
+             } 
+             ?>
 		  </tbody>
 		</table>
 	</section>
@@ -126,4 +120,4 @@
         crossorigin="anonymous"></script>
 </body>
 
-</html>
+</html>4

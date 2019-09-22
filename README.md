@@ -1,2 +1,2 @@
-# desarrollo-aplicaciones
-Repositorio de materia desarrollo de aplicaciones
+# SmoothOperators
+Smooth Operators Team main repository
